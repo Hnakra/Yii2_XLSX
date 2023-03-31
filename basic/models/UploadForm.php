@@ -18,8 +18,9 @@ class UploadForm extends Model
     }
     public function upload(){
         if ($this->validate()) {
-            $file = File::saveFile($this->file);
-            $file = \PhpOffice\PhpSpreadsheet\IOFactory::load("uploads/$file->name");
+            $fileModel = File::saveFile($this->file);
+
+            $file = \PhpOffice\PhpSpreadsheet\IOFactory::load("uploads/$fileModel->name");
             $sheet = $file->getActiveSheet();
             $rows = $sheet->toArray(null, true, true, true);
 
@@ -29,7 +30,7 @@ class UploadForm extends Model
                     'date' => date("Y-m-d", strtotime($row['B'])),
                     'value' => (int) $row['C']
                 );
-                Transaction::saveTransaction($data);
+                Transaction::saveTransaction($data, $fileModel->id);
             }
             return true;
         } else {

@@ -22,22 +22,28 @@ class Transaction extends \yii\db\ActiveRecord
         return 'transactions';
     }
 
-    public static function saveTransaction($row)
+    public static function saveTransaction($row, $id_file)
     {
         if(!isset($row['id'])){
             return;
         }
-        $transaction = Transaction::find()->where(['id' => $row['id']])->one();
-        isset($transaction) ? Transaction::updateTransaction($row) : Transaction::addTransaction($row);
+        $transaction = Transaction::findOne(['id' => $row['id']]);
+        if(isset($transaction)){
+            Transaction::edit($row);
+            TransactionFile::edit($row['id'], $id_file);
+        } else {
+            Transaction::add($row);
+            TransactionFile::add($row['id'], $id_file);
+        }
     }
-    private static function updateTransaction($row)
+    private static function edit($row)
     {
-        $transaction = Transaction::find()->where(['id' => $row['id']])->one();
+        $transaction = Transaction::findOne(['id' => $row['id']]);
         $transaction->date = $row['date'];
         $transaction->value = $row['value'];
         $transaction->save();
     }
-    private static function addTransaction($row)
+    private static function add($row)
     {
         $transaction = new Transaction();
         $transaction->id = $row['id'];

@@ -1,6 +1,7 @@
 version: '2'
 services:
   php:
+    container_name: yii2_xlsx
     build:
       context: .
     volumes:

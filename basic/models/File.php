@@ -14,7 +14,14 @@ use Yii;
  */
 class File extends \yii\db\ActiveRecord
 {
-
+    /**
+     * @return \yii\db\ActiveQuery
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getTransactions(){
+        return $this->hasMany(Transaction::class, ['id' => 'id_transaction'])
+            ->viaTable('transaction_file', ['id_file' => 'id']);
+    }
     public static function saveFile($file)
     {
         $filename = "$file->baseName.$file->extension";
