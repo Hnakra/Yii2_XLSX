@@ -17,7 +17,14 @@ use yii\widgets\ActiveForm;
     <button>Загрузить</button>
 <?php ActiveForm::end() ?>
 <p>Суммарная стоимость: <?=$summa_all?></p>
-<p>Суммарная стоимость из последнего файла (для того, чтобы показать рабочую связь между таблицами): <?=$summa_last_file?></p>
+<?php
+if($transactions->count() != 0){
+    ?>
+    <p>Суммарная стоимость из последнего файла (для того, чтобы показать рабочую связь между таблицами): <?=$summa_last_file?></p>
+    <?php
+}
+?>
+
 <?php
 /*$dataProvider = new ActiveDataProvider([
     'query' => $transactions,

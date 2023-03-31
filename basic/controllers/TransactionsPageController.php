@@ -22,14 +22,18 @@ class TransactionsPageController extends Controller{
         $transactions = Transaction::find();
         $summa_all = $transactions->sum('value');
 
-        $last_file_transactions = File::find()->orderBy(['id' => SORT_DESC])->one()->transactions;
-        $summa_last_file = array_reduce($last_file_transactions, fn($carry, $item)=>$carry+$item->value);
+
+        if($transactions->count() != 0){
+            $last_file_transactions = File::find()->orderBy(['id' => SORT_DESC])->one()->transactions;
+            $summa_last_file = array_reduce($last_file_transactions, fn($carry, $item)=>$carry+$item->value);
+        }
+
 
         return $this->render('view', [
             'summa_all' => $summa_all,
             'transactions' => $transactions,
             'model' => $model,
-            'summa_last_file' => $summa_last_file,
+            'summa_last_file' => $summa_last_file ?? 0,
         ]);
     }
 }
