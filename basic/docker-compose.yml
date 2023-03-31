@@ -8,7 +8,7 @@ services:
       - ./:/app:delegated
     ports:
       - '80:80'
-  postgres:
+  postgres_db:
     image: library/postgres:13
     restart: on-failure
     environment:
@@ -16,6 +16,6 @@ services:
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: postgres
     volumes:
-      - ./postgres/:/docker-entrypoint-initdb.d/
+      - ./postgres/db-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"

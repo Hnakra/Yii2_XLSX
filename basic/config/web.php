@@ -42,14 +42,16 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+               // '/' => 'transactions-page/index',
+                '/' => 'transactions-page/view',
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
